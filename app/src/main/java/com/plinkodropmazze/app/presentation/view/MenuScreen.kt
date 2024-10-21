@@ -1,7 +1,6 @@
-package com.plinkodropmazze.app
+package com.plinkodropmazze.app.presentation.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +28,11 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.pinrushcollect.app.data.Prefs
+import com.plinkodropmazze.app.R
 
 @Composable
 fun MenuScreen(
@@ -153,13 +155,16 @@ fun TopBar(
                     painter = painterResource(id = R.drawable.balance_bar),
                     contentScale = ContentScale.FillBounds
                 )
-                .width(200.dp)
+                .width(100.dp)
                 .height(80.dp)
         ) {
-            Text(text = "2234")
+            Text(text = Prefs.coin.toString())
             Image(
                 painter = painterResource(id = R.drawable.coin),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .width(40.dp)
+                    .height(40.dp)
             )
         }
 
@@ -189,3 +194,8 @@ fun Modifier.clickableNoRipple(onClick: () -> Unit) = then(
         onClick = onClick
     )
 )
+@Preview
+@Composable
+fun MenuScreenPreview() {
+    MenuScreen(onShop = {}, onPlay = {}, onPrivacy = {})
+}
