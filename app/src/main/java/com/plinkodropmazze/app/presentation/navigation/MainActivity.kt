@@ -12,6 +12,7 @@ import com.pinrushcollect.app.data.Prefs
 import com.plinkodropmazze.app.data.DailyBonusManager
 import com.plinkodropmazze.app.presentation.view.CrystalGameScreen
 import com.plinkodropmazze.app.presentation.view.MenuScreen
+import com.plinkodropmazze.app.presentation.view.PlinkoGame
 import com.plinkodropmazze.app.ui.theme.PlinkoDropMazeTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,14 +25,23 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = if (bonusManager.isBonusClaimedToday()) Screen.MainMenuScreen.route else Screen.CrystalScreen.route
+                    startDestination =
+                    if (bonusManager.isBonusClaimedInLastSixHours()) Screen.MainMenuScreen.route else Screen.CrystalScreen.route
                 ) {
                     composable(Screen.MainMenuScreen.route) {
-                        MenuScreen(onShop = { /*TODO*/ }, onPlay = { /*TODO*/ }) {
-                        }
+                        MenuScreen(
+                            onShop = { /*TODO*/ },
+                            onPlay = { navController.navigatePopUpInclusive(Screen.PinkoScreen)},
+                            onPrivacy = {},
+                            bonusManager = bonusManager,
+                            onCrystalsCollected = { navController.navigatePopUpInclusive(Screen.CrystalScreen) }
+                        )
                     }
                     composable(Screen.CrystalScreen.route) {
-                        CrystalGameScreen(navController::navigatePopUpInclusive,bonusManager)
+                        CrystalGameScreen(navController::navigatePopUpInclusive, bonusManager)
+                    }
+                    composable(Screen.PinkoScreen.route){
+                        PlinkoGame()
                     }
                 }
             }

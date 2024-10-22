@@ -19,6 +19,7 @@ sealed class Screen(
             return "$route/$levelKey/$painterResourceId/$levelCost"
         }
     }
+    data object PinkoScreen : Screen("pinko_screen")
     data object WinScreen : Screen("win_screen/{level}")
     data object LoseScreen : Screen("lose_screen/{level}")
 

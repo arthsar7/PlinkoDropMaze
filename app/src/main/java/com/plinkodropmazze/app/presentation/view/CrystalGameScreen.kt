@@ -1,5 +1,6 @@
 package com.plinkodropmazze.app.presentation.view
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,22 +38,28 @@ import com.ancient.flow.game.presentation.navigation.Screen
 import com.pinrushcollect.app.data.Prefs
 import com.plinkodropmazze.app.R
 import com.plinkodropmazze.app.data.DailyBonusManager
+import java.util.concurrent.TimeUnit
 
 
 @Composable
-fun CrystalGameScreen(onNext:(Screen ) -> Unit,dailyBonusManager: DailyBonusManager) {
+fun CrystalGameScreen(onNext: (Screen) -> Unit, dailyBonusManager: DailyBonusManager) {
     var lastBonusTime by remember { mutableStateOf(dailyBonusManager.getLastBonusTime()) }
     var selectedCrystal by remember { mutableStateOf(-1) }
     var winningAmount by remember { mutableStateOf(0) }
-    var isCrystalSelected by remember { mutableStateOf(dailyBonusManager.isBonusClaimedToday()) } // Переменная для блокировки
+    var isCrystalSelected by remember { mutableStateOf(false) } // Переменная для блокировки
     var showDialog by remember { mutableStateOf(false) } // Показывает, открыт ли диалог
     val crystalImage =
         painterResource(id = R.drawable.crystal) // Замените на ваше изображение кристалла
     val gridBackground =
         painterResource(id = R.drawable.panel_settings_bg) // Замените на ваше фоновое изображение
+    BackHandler {
+        onNext(Screen.MainMenuScreen)
+    }
 
     Box(
-        modifier = Modifier.fillMaxSize().appBg(),
+        modifier = Modifier
+            .fillMaxSize()
+            .appBg(),
         contentAlignment = Alignment.Center,
     ) {
 
@@ -83,9 +90,12 @@ fun CrystalGameScreen(onNext:(Screen ) -> Unit,dailyBonusManager: DailyBonusMana
                             winningAmount = coinsWon
                             Prefs.coin += coinsWon
                             lastBonusTime = System.currentTimeMillis()
-                            dailyBonusManager.saveLastBonusTime(lastBonusTime)
+                            //dailyBonusManager.saveLastBonusTime(lastBonusTime)
+                            dailyBonusManager.saveLastBonusTime(System.currentTimeMillis()) // Обновить время последнего сбора
+                            //remainingTime = TimeUnit.HOURS.toMillis(6) // Сброс таймера на 6 часов
                             isCrystalSelected = true // Блокируем повторный выбор кристалла
                             showDialog = true // Показываем диалог
+
                         }
                     }
                 )
@@ -100,7 +110,8 @@ fun CrystalGameScreen(onNext:(Screen ) -> Unit,dailyBonusManager: DailyBonusMana
                 modifier = Modifier.padding(bottom = 16.dp)
             )
         }
-        if(showDialog) {
+
+        if (showDialog) {
             Image(
                 painter = painterResource(id = R.drawable.top_image), // Ваше изображение сверху
                 contentDescription = null,
@@ -120,16 +131,17 @@ fun CrystalGameScreen(onNext:(Screen ) -> Unit,dailyBonusManager: DailyBonusMana
                 contentScale = ContentScale.Crop
             )
         }
-
         // Диалог с информацией о выигрыше
         if (showDialog) {
             WinDialog(winningAmount) {
                 showDialog = false
                 onNext(Screen.MainMenuScreen)
             }
+
         }
     }
 }
+
 @Composable
 fun WinDialog(winningAmount: Int, onContinue: () -> Unit) {
     Dialog(onDismissRequest = { /* Ничего не делаем, чтобы игрок не мог закрыть диалог снаружи */ }) {
@@ -182,7 +194,8 @@ fun WinDialog(winningAmount: Int, onContinue: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.button), contentDescription = null,
+                        painter = painterResource(id = R.drawable.button),
+                        contentDescription = null,
                         modifier = Modifier
                             .clickableNoRipple(onClick = onContinue)
                     )
