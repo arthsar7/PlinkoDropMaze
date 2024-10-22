@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -49,12 +50,14 @@ fun MenuScreen(
             .then(
                 if (isShowSettings) Modifier.blur(30.dp) else Modifier
             ),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(onSettings = { isShowSettings = true }, onShop = onShop)
         Image(
             painter = painterResource(id = R.drawable.plinko_logo),
-            contentDescription = null
+            contentDescription = null,
+            modifier = Modifier.size(300.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.play_btn),
@@ -84,7 +87,7 @@ fun SettingsDialog(
     var musicValue by remember { mutableFloatStateOf(0.5f) }
     var soundValue by remember { mutableFloatStateOf(0.5f) }
     val list = remember {
-        listOf(R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3,)
+        listOf(R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3)
     }
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -96,7 +99,8 @@ fun SettingsDialog(
                     .paint(
                         painter = painterResource(id = R.drawable.panel_settings_bg),
                         contentScale = ContentScale.Crop
-                    )
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "Settings",
@@ -114,6 +118,7 @@ fun SettingsDialog(
                             contentDescription = null,
                             modifier = Modifier
                                 .weight(1f)
+                                .padding(3.dp)
                         )
                     }
                 }
@@ -138,12 +143,18 @@ fun TopBar(
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onSettings) {
+        IconButton(
+            onClick = onSettings,
+            modifier = Modifier.size(100.dp)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.settings_btn),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
             )
         }
         Row(
@@ -151,12 +162,12 @@ fun TopBar(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .weight(1f)
+                .padding(horizontal = 4.dp)
+                .height(70.dp)
                 .paint(
                     painter = painterResource(id = R.drawable.balance_bar),
                     contentScale = ContentScale.FillBounds
                 )
-                .width(100.dp)
-                .height(80.dp)
         ) {
             Text(text = Prefs.coin.toString())
             Image(
@@ -168,10 +179,16 @@ fun TopBar(
             )
         }
 
-        IconButton(onClick = onShop) {
+        IconButton(
+            onClick = onShop,
+            modifier = Modifier.size(100.dp)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.shop_btn),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
             )
         }
     }
@@ -194,6 +211,7 @@ fun Modifier.clickableNoRipple(onClick: () -> Unit) = then(
         onClick = onClick
     )
 )
+
 @Preview
 @Composable
 fun MenuScreenPreview() {
