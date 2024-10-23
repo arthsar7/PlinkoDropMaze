@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         CrystalGameScreen(navController::navigatePopUpInclusive, bonusManager)
                     }
                     composable(Screen.PinkoScreen.route){
-                        PlinkoGame()
+                        PlinkoGame(navController::navigatePopUpInclusive)
                     }
                 }
             }

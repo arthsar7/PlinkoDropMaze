@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -60,7 +61,10 @@ fun MenuScreen(
     var showDialog by remember { mutableStateOf(false) } // Показывает, открыт ли диалог
     Column(
         modifier = Modifier
-            .appBg()
+            .paint(
+                painterResource(id = R.drawable.bg),
+                contentScale = ContentScale.Crop
+            )
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .then(
@@ -70,7 +74,7 @@ fun MenuScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            TopBar(onSettings = { isShowSettings = true }, onShop ={ showDialog = true })
+            TopBar(onSettings = { isShowSettings = true }, onShop = { })
         }
         // Лого приложения
         Spacer(modifier = Modifier.height(40.dp))
@@ -168,9 +172,9 @@ fun CrystalCollector(
                     painter = painterResource(id = R.drawable.timer),
                     contentScale = ContentScale.FillWidth
                 )
-//                .clickable {
-//                    onBuyCrystal()
-//                }
+                .clickable {
+                    onBuyCrystal()
+                }
         ) {
 
             // Кнопка для сбора кристаллов
@@ -224,12 +228,14 @@ fun SettingsDialog(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(text = "Music")
-                Slider(value = musicValue, onValueChange = { musicValue = it
+                Slider(value = musicValue, onValueChange = {
+                    musicValue = it
                     Prefs.musicVolume = musicValue
                     SoundManager.setMusicVolume()
                 })
                 Text(text = "Sound Effects")
-                Slider(value = soundValue, onValueChange = { soundValue = it
+                Slider(value = soundValue, onValueChange = {
+                    soundValue = it
                     Prefs.soundVolume = soundValue
                     SoundManager.setSoundVolume()
                 })
@@ -328,6 +334,7 @@ fun TopBar(
     onSettings: () -> Unit,
     onShop: () -> Unit
 ) {
+    val coinCount by remember { mutableIntStateOf(Prefs.coin) }
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -357,7 +364,7 @@ fun TopBar(
                     contentScale = ContentScale.FillBounds
                 )
         ) {
-            Text(text = Prefs.coin.toString())
+            Text(text = coinCount.toString())
             Image(
                 painter = painterResource(id = R.drawable.coin),
                 contentDescription = null,
@@ -386,7 +393,8 @@ fun TopBar(
 fun Modifier.appBg() = then(
     Modifier
         .paint(
-            painter = painterResource(id =
+            painter = painterResource(
+                id =
                 when (Prefs.bg) {
                     0 -> R.drawable.bg_1_1
                     1 -> R.drawable.bg_2_2
