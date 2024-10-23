@@ -44,6 +44,7 @@ import androidx.compose.ui.window.Dialog
 import com.pinrushcollect.app.data.Prefs
 import com.plinkodropmazze.app.R
 import com.plinkodropmazze.app.data.DailyBonusManager
+import com.plinkodropmazze.app.data.SoundManager
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
@@ -200,8 +201,8 @@ fun formatTime(timeMillis: Long): String {
 fun SettingsDialog(
     onDismiss: () -> Unit
 ) {
-    var musicValue by remember { mutableFloatStateOf(0.5f) }
-    var soundValue by remember { mutableFloatStateOf(0.5f) }
+    var musicValue by remember { mutableFloatStateOf(Prefs.musicVolume) }
+    var soundValue by remember { mutableFloatStateOf(Prefs.soundVolume) }
     val list = remember {
         listOf(R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3)
     }
@@ -223,25 +224,28 @@ fun SettingsDialog(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(text = "Music")
-                Slider(value = musicValue, onValueChange = { musicValue = it })
+                Slider(value = musicValue, onValueChange = { musicValue = it
+                    Prefs.musicVolume = musicValue
+                    SoundManager.setMusicVolume()
+                })
                 Text(text = "Sound Effects")
-                Slider(value = soundValue, onValueChange = { soundValue = it })
+                Slider(value = soundValue, onValueChange = { soundValue = it
+                    Prefs.soundVolume = soundValue
+                    SoundManager.setSoundVolume()
+                })
                 Text(text = "SELECT GAME PANEL")
                 Row {
                     list.forEachIndexed { index, item ->
-                        Column {
-                            Image(
-                                painter = painterResource(id = item),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(3.dp)
-                                    .clickable {
-                                        Prefs.bg = index// Присваиваем индекс элемента
-                                    }
-                            )
-
-                        }
+                        Image(
+                            painter = painterResource(id = item),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(3.dp)
+                                .clickable {
+                                    Prefs.bg = index// Присваиваем индекс элемента
+                                }
+                        )
 
                     }
 
@@ -382,7 +386,14 @@ fun TopBar(
 fun Modifier.appBg() = then(
     Modifier
         .paint(
-            painter = painterResource(id = R.drawable.bg),
+            painter = painterResource(id =
+                when (Prefs.bg) {
+                    0 -> R.drawable.bg_1_1
+                    1 -> R.drawable.bg_2_2
+                    2 -> R.drawable.bg_3_3
+                    else -> R.drawable.bg_1_1
+                }
+            ),
             contentScale = ContentScale.Crop
         )
 )

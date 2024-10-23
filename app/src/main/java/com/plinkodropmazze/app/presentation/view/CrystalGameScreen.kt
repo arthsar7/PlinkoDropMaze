@@ -38,6 +38,7 @@ import com.ancient.flow.game.presentation.navigation.Screen
 import com.pinrushcollect.app.data.Prefs
 import com.plinkodropmazze.app.R
 import com.plinkodropmazze.app.data.DailyBonusManager
+import com.plinkodropmazze.app.data.SoundManager
 import java.util.concurrent.TimeUnit
 
 
@@ -84,6 +85,7 @@ fun CrystalGameScreen(onNext: (Screen) -> Unit, dailyBonusManager: DailyBonusMan
                     selectedCrystal = selectedCrystal,
                     onCrystalClick = { index ->
                         if (!isCrystalSelected) {
+                            SoundManager.playSound()
                             selectedCrystal = index
                             val winAmounts = listOf(100, 200, 300, 400, 500)
                             val coinsWon = winAmounts.random()

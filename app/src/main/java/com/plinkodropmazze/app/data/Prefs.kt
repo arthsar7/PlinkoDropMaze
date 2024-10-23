@@ -35,4 +35,12 @@ object Prefs {
         set(value) {
             prefs.edit().putInt("bg", value).apply()
         }
+
+
+    var musicVolume: Float
+        get() = prefs.getFloat("musicVolume", 0.5f)
+        set(value) = prefs.edit().putFloat("musicVolume", value).apply()
+    var soundVolume: Float
+        get() = prefs.getFloat("soundVolume", 0.5f)
+        set(value) = prefs.edit().putFloat("soundVolume", value).apply()
 }

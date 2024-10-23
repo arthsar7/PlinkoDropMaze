@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinrushcollect.app.data.Prefs
 import com.plinkodropmazze.app.R
+import com.plinkodropmazze.app.ui.theme.Typography
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -62,7 +64,7 @@ fun PlinkoGame() {
             .fillMaxSize()
             .paint(
                 painter = painterResource(
-                    id = when (Prefs.bg - 1) {
+                    id = when (Prefs.bg + 1) {
                         1 -> R.drawable.bg_1_1
                         2 -> R.drawable.bg_2_2
                         3 -> R.drawable.bg_3_3
@@ -77,7 +79,7 @@ fun PlinkoGame() {
         TopBar(onSettings = { isShowSettings = true }, onShop = { })
         Text(
             text = "Plinko Game",
-            style = MaterialTheme.typography.headlineMedium,
+            style = Typography.headlineMedium,
             modifier = Modifier.padding(8.dp),
             color = Color.White
         )
@@ -87,7 +89,7 @@ fun PlinkoGame() {
             } else {
                 "Drop the ball to play!"
             },
-            style = MaterialTheme.typography.headlineMedium,
+            style = Typography.headlineMedium,
             modifier = Modifier.padding(8.dp),
             color = Color.White
         )
@@ -113,6 +115,7 @@ fun PlinkoGame() {
         }
 
         // Button to change the structure of the board
+        val style = LocalTextStyle.current
         Button(
             onClick = {
                 // Cycle through different numbers of balls
@@ -126,7 +129,9 @@ fun PlinkoGame() {
             },
             modifier = Modifier.padding(16.dp)
         ) {
-            Text("Change Number of Balls")
+            Text("Change Number of Balls",
+                style = style
+                )
         }
     }
     if (isShowSettings) {
@@ -134,7 +139,7 @@ fun PlinkoGame() {
     }
     LaunchedEffect(isBallDropping) {
         if (isBallDropping) {
-            while (ballPosition?.second ?: 1f < 0.9f) {
+            while ((ballPosition?.second ?: 1f) < 0.9f) {
                 ballPosition = ballPosition?.let {
                     Pair(it.first + Random.nextFloat() * 0.1f - 0.05f, it.second + 0.02f)
                 }
@@ -289,7 +294,7 @@ fun PlinkoBoard(
 //            modifier = Modifier
 //                .align(Alignment.TopCenter)
 //                .padding(top = 16.dp),
-//            style = MaterialTheme.typography.bodyMedium.copy(
+//            style = _root_ide_package_.com.plinkodropmazze.app.ui.theme.Typography.bodyMedium.copy(
 //                color = Color.White,
 //                fontWeight = FontWeight.Bold
 //            )
