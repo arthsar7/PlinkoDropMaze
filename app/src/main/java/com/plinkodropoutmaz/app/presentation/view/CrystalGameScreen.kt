@@ -1,4 +1,4 @@
-package com.plinkodropmazze.app.presentation.view
+package com.plinkodropoutmaz.app.presentation.view
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -36,10 +36,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.ancient.flow.game.presentation.navigation.Screen
 import com.pinrushcollect.app.data.Prefs
-import com.plinkodropmazze.app.R
-import com.plinkodropmazze.app.data.DailyBonusManager
-import com.plinkodropmazze.app.data.SoundManager
-import java.util.concurrent.TimeUnit
+import com.plinkodropoutmaz.app.R
+import com.plinkodropoutmaz.app.data.DailyBonusManager
+import com.plinkodropoutmaz.app.data.SoundManager
 
 
 @Composable

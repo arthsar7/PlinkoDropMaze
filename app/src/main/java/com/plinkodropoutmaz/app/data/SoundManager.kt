@@ -1,9 +1,9 @@
-package com.plinkodropmazze.app.data
+package com.plinkodropoutmaz.app.data
 
 import android.content.Context
 import android.media.MediaPlayer
 import com.pinrushcollect.app.data.Prefs
-import com.plinkodropmazze.app.R
+import com.plinkodropoutmaz.app.R
 
 object SoundManager {
     private lateinit var musicPlayer: MediaPlayer

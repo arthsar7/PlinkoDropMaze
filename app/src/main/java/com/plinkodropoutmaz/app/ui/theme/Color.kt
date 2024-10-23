@@ -1,4 +1,4 @@
-package com.plinkodropmazze.app.ui.theme
+package com.plinkodropoutmaz.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

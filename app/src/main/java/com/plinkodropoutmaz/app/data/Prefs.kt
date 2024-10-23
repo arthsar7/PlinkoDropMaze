@@ -2,7 +2,6 @@ package com.pinrushcollect.app.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.plinkodropmazze.app.R
 
 object Prefs {
     private lateinit var prefs: SharedPreferences

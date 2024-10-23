@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.plinkodropmazze.app"
+    namespace = "com.plinkodropoutmaz.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.plinkodropmazze.app"
+        applicationId = "com.plinkodropoutmaz.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

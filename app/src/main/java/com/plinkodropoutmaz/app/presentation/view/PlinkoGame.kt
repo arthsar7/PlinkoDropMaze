@@ -1,4 +1,4 @@
-package com.plinkodropmazze.app.presentation.view
+package com.plinkodropoutmaz.app.presentation.view
 
 import android.graphics.Paint
 import androidx.activity.compose.BackHandler
@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -27,8 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.ancient.flow.game.presentation.navigation.Screen
 import com.pinrushcollect.app.data.Prefs
-import com.plinkodropmazze.app.R
-import com.plinkodropmazze.app.ui.theme.Typography
+import com.plinkodropoutmaz.app.R
 import kotlin.random.Random
 
 @Composable
@@ -139,7 +137,7 @@ fun PlinkoGame(onNext: (Screen) -> Unit) {
     }
     LaunchedEffect(isBallDropping) {
         if (isBallDropping) {
-            while ((ballPosition?.second ?: 1f) < 0.9f) {
+            while ((ballPosition?.second ?: 1f) < 0.89f) {
                 ballPosition = ballPosition?.let {
                     Pair(it.first + Random.nextFloat() * 0.05f - 0.025f, it.second + 0.02f)
                 }
@@ -389,7 +387,7 @@ fun PlinkoBoard(
             drawRect(
                 color = Color.Blue,
                 topLeft = androidx.compose.ui.geometry.Offset(
-                    x = col * slotWidth, y = size.height - 70.dp.toPx()
+                    x = col * slotWidth, y = size.height - 70.dp.toPx()  // Опускаем слоты ниже
                 ),
                 size = androidx.compose.ui.geometry.Size(
                     slotWidth, 40.dp.toPx()
@@ -400,7 +398,7 @@ fun PlinkoBoard(
             drawRect(
                 color = if (winningSlot == col) Color.Green else Color.White,
                 topLeft = androidx.compose.ui.geometry.Offset(
-                    x = col * slotWidth, y = size.height - 70.dp.toPx()
+                    x = col * slotWidth, y = size.height - 70.dp.toPx()  // Опускаем слоты ниже
                 ),
                 size = androidx.compose.ui.geometry.Size(
                     slotWidth, 40.dp.toPx()
@@ -408,16 +406,20 @@ fun PlinkoBoard(
                 style = Stroke(width = 5.dp.toPx())
             )
         }
+
+        // Отображение коэффициентов
         for (col in 0 until cols) {
-            drawContext.canvas.nativeCanvas.drawText(adjustedSlotCoefficients[col].toString(),
+            drawContext.canvas.nativeCanvas.drawText(
+                adjustedSlotCoefficients[col].toString(),
                 col * slotWidth + slotWidth / 2,
-                size.height - 45.dp.toPx(),  // Уменьшенная позиция для текста
+                size.height - 45.dp.toPx(),  // Опускаем текст ниже
                 Paint().apply {
                     color = android.graphics.Color.WHITE
                     textAlign = android.graphics.Paint.Align.CENTER
                     textSize = 14.sp.toPx()  // Уменьшенный размер текста
                     isFakeBoldText = true
-                })
+                }
+            )
         }
 
         // Рисуем шар, если он падает
@@ -431,6 +433,7 @@ fun PlinkoBoard(
         }
     }
 }
+
 
 
 @Composable

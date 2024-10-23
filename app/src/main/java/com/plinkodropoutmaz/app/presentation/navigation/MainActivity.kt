@@ -1,4 +1,4 @@
-package com.plinkodropmazze.app.presentation.navigation
+package com.plinkodropoutmaz.app.presentation.navigation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,12 +9,12 @@ import androidx.navigation.compose.rememberNavController
 import com.ancient.flow.game.presentation.navigation.Screen
 import com.ancient.flow.game.presentation.navigation.navigatePopUpInclusive
 import com.pinrushcollect.app.data.Prefs
-import com.plinkodropmazze.app.data.DailyBonusManager
-import com.plinkodropmazze.app.data.SoundManager
-import com.plinkodropmazze.app.presentation.view.CrystalGameScreen
-import com.plinkodropmazze.app.presentation.view.MenuScreen
-import com.plinkodropmazze.app.presentation.view.PlinkoGame
-import com.plinkodropmazze.app.ui.theme.PlinkoDropMazeTheme
+import com.plinkodropoutmaz.app.data.DailyBonusManager
+import com.plinkodropoutmaz.app.data.SoundManager
+import com.plinkodropoutmaz.app.presentation.view.CrystalGameScreen
+import com.plinkodropoutmaz.app.presentation.view.MenuScreen
+import com.plinkodropoutmaz.app.presentation.view.PlinkoGame
+import com.plinkodropoutmaz.app.ui.theme.PlinkoDropMazeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

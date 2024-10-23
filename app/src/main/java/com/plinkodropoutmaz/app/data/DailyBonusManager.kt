@@ -1,8 +1,7 @@
-package com.plinkodropmazze.app.data
+package com.plinkodropoutmaz.app.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 class DailyBonusManager(context: Context) {
